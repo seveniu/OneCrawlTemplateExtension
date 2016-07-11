@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/CrawlTemplate">
+    <meta charset=utf-8>
+    <title>大海捞珍</title>
+    <!-- there are rendering bugs when styles aren't inline... -->
+    <!--<link rel="stylesheet" href="css/content.css"/>-->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css.map"/>
+    <!--<link rel="stylesheet" href="css/selectize.bootstrap3.css"/>-->
+    <style type='text/css'>
+        body {
+            background-color: #f2f2f2;
+            width: 400px;
+        }
+
+        #main {
+            margin-top: 20px;
+        }
+
+        #loginDiv {
+            width: 300px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="main" class="container">
+
+    <!-- 登录 -->
+    <div id="loginDiv" class="container" style="display: none">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" class="form-control" id="username" v-model="username" placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" id="password" v-model="password" placeholder="密码">
+        </div>
+        <button type="button" class="btn btn-default" v-on:click="login">登录</button>
+    </div>
+
+    <!-- 设置网站 -->
+    <div id="websiteDiv" style="display: none">
+        <div class="form-group">
+            <label for="username">网站名</label>
+            <input type="text" class="form-control" v-model="websiteName" placeholder="网站名">
+        </div>
+        <button type="button" class="btn btn-default" v-on:click="add">添加</button>
+    </div>
+
+    <!-- 模板 -->
+    <div id="template" style="display: none">
+        <div v-show="showTemplateList">
+            <template v-for="template in templates">
+                <div>
+                    <label>{{template.name}}</label>
+                    <button class="btn btn-primary btn-xs">编辑</button>
+                    <button class="btn btn-danger btn-xs">删除</button>
+                </div>
+            </template>
+
+            <div>
+                <div v-show="showNewTemplate">
+                    <div class="form-group">
+                        <label for="username">模板名</label>
+                        <input type="text" class="form-control" v-model="newTemplate.name" placeholder="模板名">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">模板类型</label>
+                        <input type="text" class="form-control" v-model="newTemplate.type" placeholder="模板名">
+                    </div>
+                    <button type="button" class="btn btn-default" v-on:click="addTemplate">添加</button>
+                </div>
+                <button v-show="!showNewTemplate" type="button" class="btn btn-default" v-on:click="addNewTemplate">添加新模板</button>
+            </div>
+        </div>
+        <div v-show="showPageList">
+            <h5>模板名 : {{editTemplate.name}}</h5>
+            <template v-for="page in editTemplate.pages">
+                <div>
+                    <label>{{page.name}}</label>
+                    <button class="btn btn-primary btn-xs" v-on:click="inject(page)">页面注入</button>
+                </div>
+            </template>
+            <div v-show="showNewPage">
+                <div class="form-group">
+                    <label for="username">模板页名称</label>
+                    <input type="text" class="form-control" v-model="newPage.name" placeholder="">
+                </div>
+                <button type="button" class="btn btn-default" v-on:click="addPage">添加</button>
+            </div>
+            <button v-show="!showNewPage" type="button" class="btn btn-default" v-on:click="addNewPage">添加当前网页为模板页</button>
+            <button v-show="!showNewPage" type="button" class="btn btn-default" v-on:click="cancel">取消编辑</button>
+        </div>
+    </div>
+
+
+</div>
+<script src="/js/lib/jquery.js"></script>
+<script src="/js/lib/vue.js"></script>
+<script src="/js/popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/mustache.js"></script>
+    <script src="js/options.js"></script>
+    <style>
+        #wrap-div {
+            width: 800px;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap-div" class="container">
+
+    <div class="container">
+        <h3 id="cur-server">当前服务器：</h3>
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="serverAddress">选择服务器</label>
+            <select id="serverAddress" class="form-control">
+                <option>asdf</option>
+            </select>
+        </div>
+    </form>
+    <button id="save-btn" type="submit" class="btn btn-default">提交</button>
+</div>
+</body>
+</html>
