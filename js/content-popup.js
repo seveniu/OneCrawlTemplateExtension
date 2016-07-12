@@ -1,10 +1,10 @@
 var ResultPopup = function () {
     var popup = '' +
-        '<div id="dhlz-inject-xpath-content-wrap" style="display:none;z-index:2147483647;position: fixed;top: 0;left:0;right: 0;bottom: 0;background-color: rgba(144, 144, 144, 0.66);" >' +
-        '<div id="dhlz-inject-xpath-content" style="position: relative;width: 700px;height: 70%;padding:10px;margin: 50px auto 0 auto;background-color: #ffffff">' +
-        '<div id="dhlz-inject-layer-button" style="position: absolute;top: -20px;">' +
-        '<button class="dhlz_btn dhlz_confirm_button">确认</button>' +
-        '<button class="dhlz_btn dhlz_cancel_button">取消</button>' +
+        '<div id="dhlz-inject-xpath-content-wrap" style="" >' +
+        '<div id="dhlz-inject-xpath-content" style="">' +
+        '<div id="dhlz-inject-layer-button" style="">' +
+        '<button class="dhlz-inject-button  dhlz-inject-button-confirm">确认</button>' +
+        '<button class="dhlz-inject-button  dhlz-inject-button-cancel">取消</button>' +
         '</div>' +
         '<div id="dhlz-inject-xpath-content-html" style="overflow-y: auto;height: 100%">' +
         '</div>' +
@@ -32,13 +32,13 @@ var ResultPopup = function () {
 
     initEvent();
     function initEvent() {
-        $("#dhlz-inject-layer-button").find(".dhlz_confirm_button").on("click", function () {
+        $("#dhlz-inject-layer-button").find(".dhlz-inject-button-confirm").on("click", function () {
             that.close();
             if (that.confirmFunc) {
                 that.confirmFunc();
             }
         });
-        $("#dhlz-inject-layer-button").find(".dhlz_cancel_button").on("click", function () {
+        $("#dhlz-inject-layer-button").find(".dhlz-inject-button-cancel").on("click", function () {
             that.close();
             if (that.cancelFunc) {
                 that.cancelFunc();
@@ -52,6 +52,33 @@ var ResultPopup = function () {
             that.close();
             if (that.cancelFunc) {
                 that.cancelFunc();
+            }
+        });
+        $('#dhlz-inject-xpath-content-html').on('DOMMouseScroll mousewheel', function (e) {
+            var $this = $(this),
+                scrollTop = this.scrollTop,
+                scrollHeight = this.scrollHeight,
+                height = $this.height(),
+                delta = (e.type == 'DOMMouseScroll' ?
+                e.originalEvent.detail * -40 :
+                    e.originalEvent.wheelDelta),
+                up = delta > 0;
+
+            var prevent = function () {
+                e.stopPropagation();
+                e.preventDefault();
+                e.returnValue = false;
+                return false;
+            };
+
+            if (!up && -delta > scrollHeight - height - scrollTop) {
+                // Scrolling down, but this will take us past the bottom.
+                $this.scrollTop(scrollHeight);
+                return prevent();
+            } else if (up && delta > scrollTop) {
+                // Scrolling up, but this will take us past the top.
+                $this.scrollTop(0);
+                return prevent();
             }
         });
     }

@@ -1,5 +1,5 @@
 console.log("content js loading");
-var iframe = $("#dhlz-inject-iframe");
+var iframe = $("#dhlz-inject-iiframe");
 var locateClass = "dhlz_locate_over";
 
 
@@ -38,13 +38,15 @@ function showResultPopup(data) {
         })
     });
     resultPopup.show(content, function () {
-        console.log("confirm");
+        chrome.runtime.sendMessage({action: "confirmPageResult"}, function (v) {
+        });
     }, function () {
         console.log("cancel");
     })
 }
 
 // -------------- 事件
+
 var choosedElement;
 $(document).on("click", "body", function (e) {
     if (chooseFlag) {
@@ -69,7 +71,6 @@ document.body.onkeydown = function (e) {
     // alert(String.fromCharCode(e.keyCode)+" --> "+e.keyCode);
     if (e.which == 27) {
         console.log("press esc!");
-        alert("esc")
         cancelChoose();
     }
 };

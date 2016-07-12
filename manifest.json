@@ -22,7 +22,7 @@
         ]
     },
     "web_accessible_resources": [
-        "html/frame.html"
+        "html/iframe.html"
         ],
     "icons": {
         "128": "icon128.png"

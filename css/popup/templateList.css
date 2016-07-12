@@ -5,6 +5,7 @@
     border-left: 2px solid #31708f;
     padding-left: 4px;
     margin: 0;
+    cursor: pointer;
 }
 #templateList .template .templateOperation {
     float: right;

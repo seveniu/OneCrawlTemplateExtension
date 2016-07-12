@@ -3,7 +3,7 @@ function sendMessage(m, response) {
     chrome.runtime.sendMessage(m, response);
 }
 
-sendMessage({action: "frameDone", msg: "hello"});
+sendMessage({action: "iframeLoadDone", msg: "hello"});
 
 var allLabels;
 
@@ -24,8 +24,7 @@ var vm = new Vue({
         fieldGroupSelected: "",
         fieldGroupList: [],
         page: {
-            fields: [
-            ]
+            fields: []
         },
         chooseLabel: null,
     },
@@ -74,7 +73,7 @@ var vm = new Vue({
         },
         getPage: function () {
             var that = this;
-            chrome.runtime.sendMessage({action: "getPage"}, function (page) {
+            chrome.runtime.sendMessage({action: "getPageFields"}, function (page) {
                 console.log(clone(page));
                 that.page.name = page.name;
                 that.page.url = page.url;
@@ -96,7 +95,7 @@ var vm = new Vue({
             sendMessage({action: "choose", msg: "hello"});
         },
         "testXpath": function () {
-            var fields = JSON.stringify(this.fields);
+            var fields = JSON.stringify(this.page.fields);
             console.log(fields);
             sendMessage({action: "testXpath", msg: fields})
         }
@@ -120,12 +119,16 @@ function setXpath(xpath) {
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         // console.log(sender.tab ? "来自内容脚本：" + sender.tab.url : "来自扩展程序");
-        if (request.target && request.target == "frame") {
+        if (request.target && request.target == "iframe") {
 
             var action = request.action;
             console.log("getMessage action:" + action);
             if (action === "xpath") {
                 setXpath(request.msg)
+            } else if (action === "getPageFields") {
+                var data = clone(vm.page);
+                console.log(data);
+                sendResponse(data)
             }
         }
     }

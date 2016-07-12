@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/bootstrap.css"/>
     <link rel="stylesheet" href="/css/bootstrap.css.map"/>
     <link rel="stylesheet" href="/css/popup.css"/>
-    <link rel="stylesheet" href="/css/popup/templateList.css"/>
     <style type='text/css'>
 
     </style>
@@ -21,6 +20,9 @@
     <div id="pageListDiv">
         <div id="templateNameDiv"><span>{{template.name}}</span></div>
         <hr>
+        <button v-show="!showNewPage" type="button" class="full-width btn btn-sm btn-default "
+                v-on:click="addNewPage">添加当前网页为模板页
+        </button>
         <template v-for="page in template.pages">
             <div class="page">
                 <label>{{page.name}}</label>
@@ -35,11 +37,12 @@
                 <button type="button" class="full-width btn btn-sm btn-primary" v-on:click="addPage">添 加</button>
             </div>
         </div>
-        <div class="buttonDiv">
-            <button v-show="!showNewPage" type="button" class="btn btn-sm btn-default btn-primary"
-                    v-on:click="addNewPage">添加当前网页为模板页
-            </button>
-            <button v-show="!showNewPage" type="button" class="btn btn-sm btn-default" v-on:click="cancel">取消编辑</button>
+        <div v-show="!showNewPage" class="buttonDiv">
+            <!--<button type="button" class="full-width btn btn-sm btn-default btn-primary"-->
+            <!--v-on:click="addNewPage">添加当前网页为模板页-->
+            <!--</button>-->
+            <button type="button" class="btn btn-sm btn-default" v-on:click="cancel">取消编辑</button>
+            <button type="button" class="btn btn-sm btn-success" v-on:click="submit">完成并提交</button>
         </div>
     </div>
 

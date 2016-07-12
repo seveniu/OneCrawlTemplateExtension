@@ -28,7 +28,7 @@ function clearTemplate(callback) {
     });
 }
 
-var injectTemplateUrl = chrome.extension.getURL('/html/frame.html');
+var injectTemplateUrl = chrome.extension.getURL('/html/iframe.html');
 var injectTab;
 var pageIndex;
 /**
@@ -36,27 +36,37 @@ var pageIndex;
  * @param index page index 页面索引
  * @param url 页面 url
  */
-function inject(index,url) {
+function inject(index, url) {
     pageIndex = index;
-    chrome.tabs.create({url: url}, function (tab) {
+    createNewTab(url, function (tab) {
         console.log(tab.id);
         injectTab = tab;
         chrome.tabs.insertCSS(injectTab.id, {file: "/css/inject.css"});
-        chrome.tabs.executeScript(tab.id, {code: 'document.body.innerHTML=\'<iframe id="dhlz-inject-iframe" src=\"' + injectTemplateUrl + '\" ></iframe>\' + document.body.innerHTML;'}, function () {
-            console.log('Iframe injection complete');
-        });
         chrome.tabs.executeScript(tab.id, {"file": "/js/lib/vue.js"});
         chrome.tabs.executeScript(tab.id, {"file": "/js/lib/jquery.js"});
         chrome.tabs.executeScript(tab.id, {"file": "/js/lib/xpath.js"});
         chrome.tabs.executeScript(tab.id, {"file": "/js/content-popup.js"});
         chrome.tabs.executeScript(tab.id, {"file": "/js/content.js"});
 
+        chrome.tabs.executeScript(tab.id, {code: 'document.body.innerHTML=\'<iframe id="dhlz-inject-iframe" src=\"' + injectTemplateUrl + '\" ></iframe>\' + document.body.innerHTML;'}, function () {
+            console.log('Iframe injection complete');
+        });
     });
 }
-function injectContentJs() {
 
+function updatePageFields(pageFields) {
+    getTemplate(function (template) {
+        template.pages[pageIndex].fields = pageFields;
+        setTemplate(template,function () {
+
+        })
+    })
 }
-
+function submitTemplate() {
+    getTemplate(function (template) {
+        submitToServer(template)
+    })
+}
 // ---------------  服务器请求
 function getFieldList(callback) {
     $.get(serverHost + "api/field/list", {
@@ -79,9 +89,28 @@ function getFieldGroupList(callback) {
         callback(data)
     })
 }
+function submitToServer(template,callback) {
+    template.pages = JSON.stringify(template.pages);
+    delete template.createtime;
+    $.ajax({
+        url: serverHost + "api/template/edit",
+        type: 'put',
+        data: template,
+        success: function (result) {
+            console.log(result);
+            if (result.code == "200000") {
+                clearTemplate()
+            } else {
+                alertMessage("更新服务器数据,发生错误")
+            }
+        }
+    });
+}
+function createNewTab(url,callback) {
+    chrome.tabs.create({url: url}, callback)
+}
 
-
-// ---------------
+// --------------- 工具方法
 /**
  * 弹出消息框
  * @param m 消息
@@ -118,8 +147,8 @@ function getCurTabUrl(callback) {
 }
 
 
-function sendRadio(msg) {
-    chrome.tabs.sendMessage(injectTab.id, msg);
+function sendRadio(msg,response) {
+    chrome.tabs.sendMessage(injectTab.id, msg,response);
 
 }
 
@@ -138,12 +167,11 @@ chrome.runtime.onMessage.addListener(
                 sendResponse("success");
             });
             return true; //您在事件处理函数中返回 true，表示您希望通过异步方式发送响应（这样，与另一端之间的消息通道将会保持打开状态，直到调用了 sendResponse）。
-        } else if (action === 'frameDone') {
-            injectContentJs()
+        } else if (action === 'iframeLoadDone') {
         } else if (action === 'choose') {
             sendRadio({target: "content", action: "choose"});
         } else if (action === 'xpath') {
-            sendRadio({target: "frame", action: "xpath", msg: requestData.msg})
+            sendRadio({target: "iframe", action: "xpath", msg: requestData.msg})
         } else if (action === 'getFieldList') {
             getFieldList(function (data) {
                 sendResponse(data);
@@ -158,11 +186,15 @@ chrome.runtime.onMessage.addListener(
             sendRadio({target: "content", action: "testXpath", msg: requestData.msg})
         } else if (action === 'cancelXpathLocate') {
             sendRadio({target: "content", action: "cancelXpathLocate", msg: requestData.msg})
-        } else if (action === 'getPage') {
+        } else if (action === 'getPageFields') {
             getTemplate(function (template) {
                 sendResponse(template.pages[pageIndex])
             });
             return true;
+        } else if (action === 'confirmPageResult') {
+            sendRadio({target:"iframe",action: "getPageFields"},function (data) {
+                updatePageFields(data)
+            })
         }
 
     }

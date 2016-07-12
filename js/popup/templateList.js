@@ -65,7 +65,15 @@ var vm = new Vue({
             }
             $bg.setTemplate(clone(template));
             toPage("popup")
+        },
+        getTemplateUrl:function (id) {
+        },
+        openTemplate:function (id) {
+            $bg.createNewTab(serverHost + "view/template/" +id);
         }
+        
 
+    },
+    computed:{
     }
 });

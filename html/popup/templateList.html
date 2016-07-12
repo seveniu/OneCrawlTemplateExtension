@@ -24,7 +24,7 @@
             <div id="templateList" v-show="!showNewTemplate">
                 <template v-for="template in templates">
                     <div class="template">
-                        <label>{{template.name}}</label>
+                        <label @click="openTemplate(template.id)">{{template.name}}</label>
                         <div class="templateOperation">
                             <button class="btn btn-primary btn-xs" @click="chooseTemplate(template)">编辑</button>
                             <button class="btn btn-danger btn-xs">删除</button>
