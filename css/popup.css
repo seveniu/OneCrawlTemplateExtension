@@ -1,0 +1,50 @@
+body {
+    background-color: #fefefe;
+    width: 260px;
+    padding: 0;
+    margin: 0;
+    font-size:13px;
+}
+
+#main {
+    padding: 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+#loginDiv {
+    width: 200px;
+}
+
+#pageListDiv #templateNameDiv {
+
+}
+
+#pageListDiv #templateNameDiv span {
+    color: #555;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#pageListDiv .page {
+    margin-top: 10px;
+}
+#pageListDiv .page label {
+    padding-left: 8px;
+}
+
+#pageListDiv .buttonDiv {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#pageListDiv .page button {
+    float: right;
+}
+
+hr {
+    margin: 5px 0;
+    border-top: 1px solid #eee;
+}

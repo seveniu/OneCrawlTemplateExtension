@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/CrawlTemplate">
+    <meta charset=utf-8>
+    <title>大海捞珍</title>
+    <!-- there are rendering bugs when styles aren't inline... -->
+    <!--<link rel="stylesheet" href="css/content.css"/>-->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css.map"/>
+    <link rel="stylesheet" href="/css/popup.css"/>
+    <style type='text/css'>
+        #addBtn {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="main" class="container">
+
+    <!-- 设置网站 -->
+    <div id="websiteDiv" >
+        <div class="form-group">
+            <p >该网站还没有记录,请设置网站名</p>
+            <input type="text" class="form-control" v-model="websiteName" placeholder="网站名">
+        </div>
+        <button id="addBtn" type="button" class="btn btn-sm btn-primary" v-on:click="add">添加</button>
+    </div>
+
+</div>
+<script src="/js/lib/jquery.js"></script>
+<script src="/js/lib/vue.js"></script>
+<script src="/js/popup/popup-util.js"></script>
+<script src="/js/popup/website.js"></script>
+</body>
+</html>

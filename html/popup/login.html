@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/CrawlTemplate">
+    <meta charset=utf-8>
+    <title>大海捞珍</title>
+    <!-- there are rendering bugs when styles aren't inline... -->
+    <!--<link rel="stylesheet" href="css/content.css"/>-->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css.map"/>
+    <link rel="stylesheet" href="/css/popup.css"/>
+    <style type='text/css'>
+
+    </style>
+</head>
+<body>
+<div id="main" class="container">
+
+    <!-- 登录 -->
+    <div id="loginDiv" class="container">
+        <div class="form-group">
+            <input type="text" class="form-control" id="username" v-model="username" placeholder="用户名">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="password" v-model="password" placeholder="密码">
+        </div>
+        <button type="button" class="btn btn-default" v-on:click="login">登录</button>
+    </div>
+
+</div>
+<script src="/js/lib/jquery.js"></script>
+<script src="/js/lib/vue.js"></script>
+<script src="/js/popup/popup-util.js"></script>
+<script src="/js/popup/login.js"></script>
+</body>
+</html>

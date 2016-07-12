@@ -1,0 +1,20 @@
+#templateList .template {
+    margin-top: 15px;
+}
+#templateList .template label {
+    border-left: 2px solid #31708f;
+    padding-left: 4px;
+    margin: 0;
+}
+#templateList .template .templateOperation {
+    float: right;
+}
+
+#addNewDiv {
+    margin-top: 50px;
+    text-align: center;
+}
+
+#addNewTemplateBtnDiv{
+    text-align: center;
+}

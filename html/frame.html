@@ -6,37 +6,42 @@
     <link rel="stylesheet" type="text/css" href="/css/frame.css">
 </head>
 <body>
-    <div id="dhlz-inject-main">
+<div id="dhlz-inject-main">
+    <div id="wrap">
+
         <span>{{fieldGroupSelected}}</span>
         <div>
             <select v-model="fieldGroupSelected">
                 <option>-- 请选择 --</option>
-                <option v-for="group in labelGroupList" value="{{$index}}" >
+                <option v-for="group in fieldGroupList" value="{{$index}}">
                     {{ group.name }}
                 </option>
             </select>
         </div>
 
-        <template v-for="label in labels">
-        <div class="dhlz-inject-label">
-            <!--<div class="dhlz-inject-label choosed" >-->
-            <div>{{label.name}}</div>
-            <div><label for="">必须 : </label><input v-model="label.must" type="checkbox"></div>
-            <div><label for="">默认值 : </label><input v-model="label.defaultValue" type="text"></div>
-            <div>
-                <span>xpath</span>
-                <button class="" v-on:click="xpathChoose(label)">选取</button>
+        <template v-for="label in page.fields">
+            <div class="dhlz-inject-label">
+                <!--<div class="dhlz-inject-label choosed" >-->
+                <div class="label-name">{{label.name}}</div>
+                <div class="label-value"><label>必须 : </label><input v-model="label.must" type="checkbox"></div>
+                <div class="label-value"><label>默认值 : </label><input v-model="label.defaultValue" type="text"></div>
+                <div class="label-value">
+                    <label>xpath</label>
+                    <button class="" v-on:click="xpathChoose(label)">选取</button>
+                    <div>
+                        <textarea class="xpath" name="" id="" v-model="label.xpath"></textarea>
+                    </div>
+                </div>
+                <hr>
             </div>
-            <textarea class="xpath" name="" id="" v-model="label.xpath"></textarea>
-            <hr>
-        </div>
         </template>
         <div>
             <button @click="testXpath">测试</button>
         </div>
     </div>
-    <script src="/js/lib/vue.js"></script>
-    <script src="/js/lib/jquery.js"></script>
-    <script src="/js/frame.js"></script>
+</div>
+<script src="/js/lib/vue.js"></script>
+<script src="/js/lib/jquery.js"></script>
+<script src="/js/frame.js"></script>
 </body>
 </html>

@@ -1,59 +1,64 @@
-#dhlz-inject-iframe {
-    opacity: 1;
-    transform: translate3d(0px, 0px, 0px);
-
-    bottom: auto;
-    box-shadow: none;
-    display: block;
-    /*height: 100%;*/
-    left: auto;
-    /*opacity: 0;*/
-    right: 21px;
-    top: 21px;
-    /*transform: translate3d(30%, 0px, 0px);*/
-    width: 300px;
-    transition: -webkit-transform 300ms ease, opacity 300ms ease;
-    border-width: initial !important;
-    border-style: none !important;
-    border-color: initial !important;
-    border-image: none !important;
-
-    box-sizing: content-box;
-    max-height: none;
-    min-height: 0px;
-    max-width: none;
-    min-width: 0px;
-    /*opacity: 1;*/
-    position: fixed;
-    resize: none;
-    vertical-align: baseline;
-    visibility: visible;
-    z-index: 2147483647;
-    -webkit-user-select: none;
-    background: none !important;
-    margin: 0px !important;
-    outline: invert none medium !important;
-    padding: 0px !important;
-}
-
-
 body {
     margin: 0;
-    background-color: #77ada5;
+    background-color: #FFF8E3;
+    border: 2px solid rgba(178, 186, 193, 0.6);
+    border-radius: 3px;
+    height: 600px !important;
+    position: relative;
+    font-size: 12px;
+    font-style: normal;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -webkit-user-select: none;
+    /*font-family: GothamMedium, Helvetica, Arial, sans-serif;*/
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+
 #dhlz-inject-main {
     /*position: fixed;*/
     /*right: 0;*/
     /*top: 20px;*/
-    width: 90%;
-    /*height: 600px;*/
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     overflow-y: auto;
 }
 
-.dhlz-inject-label {
+#wrap {
+    width: 250px;
+    margin: 10px auto;
 }
-.xpath {
-    width: 80%;
-    max-width:80%;
+
+.dhlz-inject-label {
+    margin-top: 20px;
+}
+
+.dhlz-inject-label .label-value {
+    padding: 2px 8px;
+}
+
+.dhlz-inject-label label {
+    color: #444;
+}
+
+.dhlz-inject-label .label-name {
+    background-color: rgba(204, 204, 159, 0.42);
+    color: #105B63;
+    padding: 2px 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.dhlz-inject-label .xpath {
+    width: 215px;
+    max-width: 215px;
+    /* border: 0; */
+    /* padding: 0; */
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+hr {
+    margin: 5px 0;
+    border-top: 1px solid #eee;
 }

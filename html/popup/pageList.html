@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/CrawlTemplate">
+    <meta charset=utf-8>
+    <title>大海捞珍</title>
+    <!-- there are rendering bugs when styles aren't inline... -->
+    <!--<link rel="stylesheet" href="css/content.css"/>-->
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css.map"/>
+    <link rel="stylesheet" href="/css/popup.css"/>
+    <link rel="stylesheet" href="/css/popup/templateList.css"/>
+    <style type='text/css'>
+
+    </style>
+</head>
+<body>
+<div id="main" class="container">
+
+
+    <div id="pageListDiv">
+        <div id="templateNameDiv"><span>{{template.name}}</span></div>
+        <hr>
+        <template v-for="page in template.pages">
+            <div class="page">
+                <label>{{page.name}}</label>
+                <button class="btn btn-primary btn-xs" v-on:click="inject($index,page)">页面注入</button>
+            </div>
+        </template>
+        <div v-show="showNewPage">
+            <div class="form-group">
+                <input type="text" class="form-control" v-model="newPage.name" placeholder="模板页名称">
+            </div>
+            <div id="addNewDiv">
+                <button type="button" class="full-width btn btn-sm btn-primary" v-on:click="addPage">添 加</button>
+            </div>
+        </div>
+        <div class="buttonDiv">
+            <button v-show="!showNewPage" type="button" class="btn btn-sm btn-default btn-primary"
+                    v-on:click="addNewPage">添加当前网页为模板页
+            </button>
+            <button v-show="!showNewPage" type="button" class="btn btn-sm btn-default" v-on:click="cancel">取消编辑</button>
+        </div>
+    </div>
+
+
+</div>
+<script src="/js/lib/jquery.js"></script>
+<script src="/js/lib/vue.js"></script>
+<script src="/js/popup/popup-util.js"></script>
+<script src="/js/popup/pageList.js"></script>
+</body>
+</html>

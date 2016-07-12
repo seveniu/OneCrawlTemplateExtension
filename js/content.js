@@ -1,10 +1,7 @@
 console.log("content js loading");
-var frame = $("#dhlz-inject-iframe");
+var iframe = $("#dhlz-inject-iframe");
 var locateClass = "dhlz_locate_over";
 
-
-
-console.log(frame);
 
 var resultPopup = new ResultPopup();
 
@@ -13,7 +10,7 @@ var chooseFlag = false;
 
 function beginChoose() {
     chooseFlag = true;
-    frame.hide();
+    iframe.hide();
 }
 function doneChoose() {
     var xpath = xpathUtil.getXpath(choosedElement);
@@ -25,24 +22,24 @@ function doneChoose() {
 }
 function cancelChoose() {
     chooseFlag = false;
-    frame.show();
+    iframe.show();
     $("." + locateClass).removeClass(locateClass)
 }
 function showResultPopup(data) {
     var content = "";
     data = JSON.parse(data);
     data.forEach(function (v) {
-        content += "<h4>" + v.name +"</h4>";
+        content += "<h4>" + v.name + "</h4>";
         console.log(v);
-        var elements = xpathUtil.getElementsByXpath(v.xpath,document);
+        var elements = xpathUtil.getElementsByXpath(v.xpath, document);
         elements.forEach(function (element) {
             content += element.innerHTML;
             content += "<hr>"
         })
     });
-    resultPopup.show(content,function () {
+    resultPopup.show(content, function () {
         console.log("confirm");
-    },function () {
+    }, function () {
         console.log("cancel");
     })
 }
@@ -68,7 +65,7 @@ $(document).on("mouseout", function (e) {
         $(getTargetElement(e)).removeClass(locateClass);
     }
 });
-document.body.onkeydown = function(e){
+document.body.onkeydown = function (e) {
     // alert(String.fromCharCode(e.keyCode)+" --> "+e.keyCode);
     if (e.which == 27) {
         console.log("press esc!");

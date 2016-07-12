@@ -6,42 +6,40 @@ function sendMessage(m, response) {
 sendMessage({action: "frameDone", msg: "hello"});
 
 var allLabels;
-chrome.runtime.sendMessage({action: "getFieldList"}, function (data) {
-    if (isResultSuccess(data)) {
-        allLabels = data.result.items;
-    }
-});
-console.log("iframe js loaded");
+
+function init() {
+    getFieldDict()
+}
+function getFieldDict() {
+    chrome.runtime.sendMessage({action: "getFieldList"}, function (data) {
+        if (isResultSuccess(data)) {
+            allLabels = data.result.items;
+        }
+    });
+}
+
 var vm = new Vue({
     el: "#dhlz-inject-main",
     data: {
         fieldGroupSelected: "",
-        labelGroupList: [],
-        labels: [
-            // {
-            //     name: "标题",
-            //     xpath: ""
-            // }
-        ],
+        fieldGroupList: [],
+        page: {
+            fields: [
+            ]
+        },
         chooseLabel: null,
     },
     ready: function () {
-
-        var that = this;
-        chrome.runtime.sendMessage({action: "getFieldGroupList"}, function (data) {
-            if (isResultSuccess(data)) {
-                that.labelGroupList = data.result.items;
-            }
-        });
-
+        this.getFieldGroupList();
+        this.getPage();
     },
     watch: {
         fieldGroupSelected: function () {
             var that = this;
-            that.labels = [];
-            if (this.labelGroupList && this.fieldGroupSelected) {
+            that.fields = [];
+            if (this.fieldGroupList && this.fieldGroupSelected) {
 
-                var group = this.labelGroupList[this.fieldGroupSelected];
+                var group = this.fieldGroupList[this.fieldGroupSelected];
 
                 if (group && group.fields) {
                     console.log(group);
@@ -54,9 +52,9 @@ var vm = new Vue({
                                 console.log(vv);
                                 // result.push(vv)
                                 vv.xpath = "";
-                                vv.must =false;
+                                vv.must = false;
                                 vv.defaultValue = "";
-                                that.labels.push(vv)
+                                that.page.fields.push(vv)
                             }
                         });
                     })
@@ -66,23 +64,44 @@ var vm = new Vue({
         }
     },
     methods: {
+        getFieldGroupList: function () {
+            var that = this;
+            chrome.runtime.sendMessage({action: "getFieldGroupList"}, function (data) {
+                if (isResultSuccess(data)) {
+                    that.fieldGroupList = data.result.items;
+                }
+            });
+        },
+        getPage: function () {
+            var that = this;
+            chrome.runtime.sendMessage({action: "getPage"}, function (page) {
+                console.log(clone(page));
+                that.page.name = page.name;
+                that.page.url = page.url;
+                that.page.fields = page.fields;
+                // that.page.fields.push({
+                //     name: "标题",
+                //     xpath: ""
+                // })
+            });
+        },
         "chooseLabelGroup": function (group) {
             console.log(group);
         },
-        "xpathChoose": function (label) {
-            console.log(label);
-            this.chooseLabel = label;
-            vm.chooseLabel.xpath = "....."
+        "xpathChoose": function (field) {
+            console.log(field);
+            this.chooseLabel = field;
+            // vm.chooseLabel.xpath = "";
 
             sendMessage({action: "choose", msg: "hello"});
         },
-        "testXpath" :function () {
-            var labels = JSON.stringify(this.labels);
-            console.log(labels);
-            sendMessage({action:"testXpath",msg:labels})
+        "testXpath": function () {
+            var fields = JSON.stringify(this.fields);
+            console.log(fields);
+            sendMessage({action: "testXpath", msg: fields})
         }
     }
-})
+});
 function isResultSuccess(result) {
     return result.code == "200000"
 }
@@ -92,7 +111,7 @@ function clone(obj) {
 }
 
 function cancelXpathLocate() {
-    sendMessage({action:"cancelXpathLocate",msg:""})
+    sendMessage({action: "cancelXpathLocate", msg: ""})
 }
 function setXpath(xpath) {
     console.log("set xpath : " + xpath);
@@ -109,20 +128,15 @@ chrome.runtime.onMessage.addListener(
                 setXpath(request.msg)
             }
         }
-    });
-// document.getElementsByName("a");
-// console.log(parent.getElementsByName("a"));
-// $(parent).on("mouseover", function (e) {
-//     $(this).addClass("dhlz_locate_over");
-// });
-// $(parent).on("mouseout", function (e) {
-//     $(this).removeClass("dhlz_locate_over");
-// });
+    }
+);
 
 
-document.body.onkeydown = function(e){
+document.body.onkeydown = function (e) {
     // alert(String.fromCharCode(e.keyCode)+" --> "+e.keyCode);
     if (e.which == 27) {
         cancelXpathLocate()
     }
 };
+
+console.log("iframe js loaded");

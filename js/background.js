@@ -30,24 +30,31 @@ function clearTemplate(callback) {
 
 var injectTemplateUrl = chrome.extension.getURL('/html/frame.html');
 var injectTab;
-function injectFrame(url) {
+var pageIndex;
+/**
+ *
+ * @param index page index 页面索引
+ * @param url 页面 url
+ */
+function inject(index,url) {
+    pageIndex = index;
     chrome.tabs.create({url: url}, function (tab) {
         console.log(tab.id);
         injectTab = tab;
-        chrome.tabs.insertCSS(tab.id, {file: "css/frame.css"});
-        chrome.tabs.executeScript(tab.id, {code: 'document.body.innerHTML=\'<iframe id="dhlz-inject-iframe" src=\"' + injectTemplateUrl + '\" style="height: 600px!important;"></iframe>\' + document.body.innerHTML;'}, function () {
+        chrome.tabs.insertCSS(injectTab.id, {file: "/css/inject.css"});
+        chrome.tabs.executeScript(tab.id, {code: 'document.body.innerHTML=\'<iframe id="dhlz-inject-iframe" src=\"' + injectTemplateUrl + '\" ></iframe>\' + document.body.innerHTML;'}, function () {
             console.log('Iframe injection complete');
         });
+        chrome.tabs.executeScript(tab.id, {"file": "/js/lib/vue.js"});
+        chrome.tabs.executeScript(tab.id, {"file": "/js/lib/jquery.js"});
+        chrome.tabs.executeScript(tab.id, {"file": "/js/lib/xpath.js"});
+        chrome.tabs.executeScript(tab.id, {"file": "/js/content-popup.js"});
+        chrome.tabs.executeScript(tab.id, {"file": "/js/content.js"});
 
     });
 }
 function injectContentJs() {
-    chrome.tabs.insertCSS(injectTab.id, {file: "/css/inject.css"});
-    chrome.tabs.executeScript(injectTab.id, {"file": "/js/lib/vue.js"});
-    chrome.tabs.executeScript(injectTab.id, {"file": "/js/lib/jquery.js"});
-    chrome.tabs.executeScript(injectTab.id, {"file": "/js/lib/xpath.js"});
-    chrome.tabs.executeScript(injectTab.id, {"file": "/js/content-popup.js"});
-    chrome.tabs.executeScript(injectTab.id, {"file": "/js/content.js"});
+
 }
 
 // ---------------  服务器请求
@@ -110,20 +117,6 @@ function getCurTabUrl(callback) {
     });
 }
 
-// var doStuff = function () {
-//
-//     if(injectTab) {
-//         // chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-//         //     chrome.tabs.sendMessage(tabs[0].id, {action: "open_dialog_box"}, function(response) {});
-//         //     console.log("---- " + tabs[0].id);
-//         // });
-//         chrome.tabs.sendMessage(injectTab.id, {msg: "open_dialog_box"});
-//     console.log(injectTab.id + " : test send msg");
-//     }
-//     // Do stuff
-//     setTimeout(doStuff, 1000);
-// };
-// // setTimeout(doStuff, 1000);
 
 function sendRadio(msg) {
     chrome.tabs.sendMessage(injectTab.id, msg);
@@ -162,9 +155,14 @@ chrome.runtime.onMessage.addListener(
             });
             return true;
         } else if (action === 'testXpath') {
-            sendRadio({target: "content",action:"testXpath",msg:requestData.msg})
+            sendRadio({target: "content", action: "testXpath", msg: requestData.msg})
         } else if (action === 'cancelXpathLocate') {
-            sendRadio({target: "content",action:"cancelXpathLocate",msg:requestData.msg})
+            sendRadio({target: "content", action: "cancelXpathLocate", msg: requestData.msg})
+        } else if (action === 'getPage') {
+            getTemplate(function (template) {
+                sendResponse(template.pages[pageIndex])
+            });
+            return true;
         }
 
     }
