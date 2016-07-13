@@ -3,31 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link rel="stylesheet" href="css/bootstrap.css"/>
-    <script src="js/jquery.js"></script>
-    <script src="js/mustache.js"></script>
-    <script src="js/options.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
     <style>
+        body {
+            margin: 0;
+        }
         #wrap-div {
-            width: 800px;
+            width: 700px;
+        }
+        #curServer {
+            width: 100%;
         }
     </style>
 </head>
 <body>
 <div id="wrap-div" class="container">
 
-    <div class="container">
-        <h3 id="cur-server">当前服务器：</h3>
-    </div>
-    <form>
-        <div class="form-group">
-            <label for="serverAddress">选择服务器</label>
-            <select id="serverAddress" class="form-control">
-                <option>asdf</option>
-            </select>
+    <div id="data">
+        <div id="curServer" class="container">
+            <h3 >当前服务器：{{curServer.name}}</h3>
         </div>
-    </form>
+        <div>
+            <div class="form-group">
+                <input type="text" class="form-control" v-model="newServer.name" placeholder="服务器名称">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" v-model="newServer.host" placeholder="服务器地址">
+            </div>
+            <button class="btn btn-primary" @click="addServer">添加新服务器</button>
+        </div>
+        <table class="table">
+            <caption>服务器列表</caption>
+            <thead>
+            <tr>
+                <th>服务器名</th>
+                <th>地址</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <template v-for="server in serverList">
+
+                <tr>
+                    <td>{{server.name}}</td>
+                    <td>{{server.host}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @click="setCur($index)">设置为当前</button>
+                        <button class="btn btn-danger btn-sm" @click="deleteServer($index)">删除</button>
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
     <button id="save-btn" type="submit" class="btn btn-default">提交</button>
 </div>
+<script src="/js/lib/jquery.js"></script>
+<script src="/js/lib/vue.js"></script>
+<script src="/js/options.js"></script>
 </body>
 </html>
