@@ -16,57 +16,7 @@
 <body>
 <div id="main" class="container">
 
-
-    <!-- 模板 -->
-    <div id="template" style="display: none">
-        <div v-show="showTemplateList">
-            <template v-for="template in templates">
-                <div>
-                    <label>{{template.name}}</label>
-                    <button class="btn btn-primary btn-xs">编辑</button>
-                    <button class="btn btn-danger btn-xs">删除</button>
-                </div>
-            </template>
-
-            <div>
-                <div v-show="showNewTemplate">
-                    <div class="form-group">
-                        <label for="username">模板名</label>
-                        <input type="text" class="form-control" v-model="newTemplate.name" placeholder="模板名">
-                    </div>
-                    <div class="form-group">
-                        <label for="username">模板类型</label>
-                        <input type="text" class="form-control" v-model="newTemplate.type" placeholder="模板名">
-                    </div>
-                    <button type="button" class="btn btn-default" v-on:click="addTemplate">添加</button>
-                </div>
-                <button v-show="!showNewTemplate" type="button" class="btn btn-default" v-on:click="addNewTemplate">
-                    添加新模板
-                </button>
-            </div>
-        </div>
-        <div id="pageListDiv" v-show="showPageList">
-            <div id="templateNameDiv"><span>{{editTemplate.name}}</span></div>
-            <hr>
-            <template v-for="page in editTemplate.pages">
-                <div class="page">
-                    <label>{{page.name}}</label>
-                    <button class="btn btn-primary btn-xs" v-on:click="inject(page)">页面注入</button>
-                </div>
-            </template>
-            <div v-show="showNewPage">
-                <div class="form-group">
-                    <label for="username">模板页名称</label>
-                    <input type="text" class="form-control" v-model="newPage.name" placeholder="">
-                </div>
-                <button type="button" class="btn btn-default" v-on:click="addPage">添加</button>
-            </div>
-            <div class="buttonDiv">
-                <button v-show="!showNewPage" type="button" class="btn btn-sm btn-default btn-primary" v-on:click="addNewPage">添加当前网页为模板页</button>
-                <button v-show="!showNewPage" type="button" class="btn btn-sm btn-default" v-on:click="cancel">取消编辑</button>
-            </div>
-        </div>
-    </div>
+Hello world!
 
 
 </div>

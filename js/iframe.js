@@ -3,17 +3,19 @@ function sendMessage(m, response) {
     chrome.runtime.sendMessage(m, response);
 }
 
-sendMessage({action: "iframeLoadDone", msg: "hello"});
 
-var allLabels;
+var allFields;
 
+init()
 function init() {
+    sendMessage({action: "iframeLoadDone", msg: "hello"});
     getFieldDict()
 }
 function getFieldDict() {
     chrome.runtime.sendMessage({action: "getFieldList"}, function (data) {
+        console.log(data);
         if (isResultSuccess(data)) {
-            allLabels = data.result.items;
+            allFields = data.result.items;
         }
     });
 }
@@ -46,10 +48,8 @@ var vm = new Vue({
 
                     var fields = JSON.parse(group.fields);
                     fields.forEach(function (v) {
-                        allLabels.forEach(function (vv) {
+                        allFields.forEach(function (vv) {
                             if (vv.id == v) {
-                                console.log(vv);
-                                // result.push(vv)
                                 vv.xpath = "";
                                 vv.must = false;
                                 vv.defaultValue = "";
@@ -77,7 +77,10 @@ var vm = new Vue({
                 console.log(clone(page));
                 that.page.name = page.name;
                 that.page.url = page.url;
-                that.page.fields = page.fields;
+                if (page.fields) {
+                    that.page.fields = page.fields;
+                }
+
                 // that.page.fields.push({
                 //     name: "标题",
                 //     xpath: ""
@@ -98,6 +101,11 @@ var vm = new Vue({
             var fields = JSON.stringify(this.page.fields);
             console.log(fields);
             sendMessage({action: "testXpath", msg: fields})
+        },
+        "testXpathInServer": function () {
+            var fields = JSON.stringify(this.page.fields);
+            console.log(fields);
+            sendMessage({action: "testXpathInServer", msg: fields})
         }
     }
 });
@@ -126,7 +134,7 @@ chrome.runtime.onMessage.addListener(
             if (action === "xpath") {
                 setXpath(request.msg)
             } else if (action === "getPageFields") {
-                var data = clone(vm.page);
+                var data = clone(vm.page.fields);
                 console.log(data);
                 sendResponse(data)
             }

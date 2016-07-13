@@ -53,6 +53,7 @@ var vm = new Vue({
                 if (isResultSuccess(result)) {
                     alertMessage("模板名已存在");
                 } else {
+                    vm.newTemplate.websiteId = $bg.websiteId;
                     vm.chooseTemplate(vm.newTemplate)
                 }
             })

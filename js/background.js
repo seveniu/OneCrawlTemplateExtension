@@ -3,6 +3,10 @@
  * version 1.0
  */
 var serverHost = "http://127.0.0.1:9601/";
+var injectTemplateUrl = chrome.extension.getURL('/html/iframe.html');
+var injectTab;
+var websiteId;
+var pageIndex;
 function getTemplate(callback) {
     chrome.storage.local.get("template", function (value) {
         var template = value.template;
@@ -28,9 +32,6 @@ function clearTemplate(callback) {
     });
 }
 
-var injectTemplateUrl = chrome.extension.getURL('/html/iframe.html');
-var injectTab;
-var pageIndex;
 /**
  *
  * @param index page index 页面索引
@@ -57,7 +58,7 @@ function inject(index, url) {
 function updatePageFields(pageFields) {
     getTemplate(function (template) {
         template.pages[pageIndex].fields = pageFields;
-        setTemplate(template,function () {
+        setTemplate(template, function () {
 
         })
     })
@@ -66,6 +67,9 @@ function submitTemplate() {
     getTemplate(function (template) {
         submitToServer(template)
     })
+}
+function testXpathInServer() {
+
 }
 // ---------------  服务器请求
 function getFieldList(callback) {
@@ -89,24 +93,42 @@ function getFieldGroupList(callback) {
         callback(data)
     })
 }
-function submitToServer(template,callback) {
+function submitToServer(template, callback) {
     template.pages = JSON.stringify(template.pages);
     delete template.createtime;
-    $.ajax({
-        url: serverHost + "api/template/edit",
-        type: 'put',
-        data: template,
-        success: function (result) {
-            console.log(result);
-            if (result.code == "200000") {
-                clearTemplate()
-            } else {
-                alertMessage("更新服务器数据,发生错误")
+    if (template.id) {
+
+        $.ajax({
+            url: serverHost + "api/template/edit",
+            type: 'put',
+            data: template,
+            success: function (result) {
+                console.log(result);
+                if (result.code == "200000") {
+                    clearTemplate()
+                } else {
+                    alertMessage("更新服务器数据,发生错误")
+                }
             }
-        }
-    });
+        });
+    } else {
+        $.ajax({
+            url: serverHost + "api/template/add",
+            type: 'post',
+            data: template,
+            success: function (result) {
+                console.log(result);
+                if (result.code == "200000") {
+                    clearTemplate()
+                } else {
+                    alertMessage("服务器添加数据,发生错误")
+                }
+            }
+        });
+
+    }
 }
-function createNewTab(url,callback) {
+function createNewTab(url, callback) {
     chrome.tabs.create({url: url}, callback)
 }
 
@@ -147,8 +169,8 @@ function getCurTabUrl(callback) {
 }
 
 
-function sendRadio(msg,response) {
-    chrome.tabs.sendMessage(injectTab.id, msg,response);
+function sendRadio(msg, response) {
+    chrome.tabs.sendMessage(injectTab.id, msg, response);
 
 }
 
@@ -184,6 +206,8 @@ chrome.runtime.onMessage.addListener(
             return true;
         } else if (action === 'testXpath') {
             sendRadio({target: "content", action: "testXpath", msg: requestData.msg})
+        } else if (action === 'testXpathInServer') {
+
         } else if (action === 'cancelXpathLocate') {
             sendRadio({target: "content", action: "cancelXpathLocate", msg: requestData.msg})
         } else if (action === 'getPageFields') {
@@ -192,7 +216,7 @@ chrome.runtime.onMessage.addListener(
             });
             return true;
         } else if (action === 'confirmPageResult') {
-            sendRadio({target:"iframe",action: "getPageFields"},function (data) {
+            sendRadio({target: "iframe", action: "getPageFields"}, function (data) {
                 updatePageFields(data)
             })
         }

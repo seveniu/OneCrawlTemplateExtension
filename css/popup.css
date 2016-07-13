@@ -22,7 +22,7 @@ body {
 
 }
 
-#pageListDiv #templateNameDiv span {
+.title span {
     color: #555;
     font-size: 18px;
     font-weight: 600;
