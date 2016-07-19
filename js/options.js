@@ -54,7 +54,8 @@ var vm = new Vue({
             this.saveToStorage();
         },
         deleteServer: function (index) {
-            this.serverList.slice(index, 1)
+            console.log(index);
+            this.serverList.splice(index, 1);
             this.saveToStorage();
         },
         getFromStorage: function () {
