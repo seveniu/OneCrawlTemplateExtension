@@ -47,6 +47,11 @@ var vm = new Vue({
 
         addTemplate: function () {
             var vm = this;
+            console.log(this.newTemplate.type);
+            if (this.newTemplate.type == 0) {
+                alertMessage("选择模板类型");
+                return;
+            }
             $.post(serverHost + "api/template/is-name-exist", {
                 name: vm.newTemplate.name
             }, function (result) {
@@ -58,8 +63,8 @@ var vm = new Vue({
                 }
             })
         },
-        chooseTemplate:function (template) {
-            if(template.pages) {
+        chooseTemplate: function (template) {
+            if (template.pages) {
                 template.pages = JSON.parse(template.pages);
             } else {
                 template.pages = [];
@@ -67,14 +72,16 @@ var vm = new Vue({
             $bg.setTemplate(clone(template));
             toPage("popup")
         },
-        getTemplateUrl:function (id) {
+        delTemplate: function (template) {
+            $bg.createNewTab(serverHost + "view/template/del-confirm#" + template.id);
         },
-        openTemplate:function (id) {
-            $bg.createNewTab(serverHost + "view/template/" +id);
+        getTemplateUrl: function (id) {
+        },
+        openTemplate: function (id) {
+            $bg.createNewTab(serverHost + "view/template/" + id);
         }
-        
+
 
     },
-    computed:{
-    }
+    computed: {}
 });

@@ -3,10 +3,21 @@
  * version 1.0
  */
 var serverHost = "http://127.0.0.1:9601/";
+var serverName = "";
 var injectTemplateUrl = chrome.extension.getURL('/html/iframe.html');
 var injectTab;
 var websiteId;
 var pageIndex;
+init();
+function init() {
+    chrome.storage.local.get("serverData", function (data) {
+        var serverData = data["serverData"];
+        var server = serverData.serverList[serverData.curServerIndex];
+        console.log(server);
+        serverHost = server.host;
+        serverName = server.name;
+    });
+}
 function getTemplate(callback) {
     chrome.storage.local.get("template", function (value) {
         var template = value.template;

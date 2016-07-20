@@ -1,10 +1,10 @@
 var KEY = "serverData";
 var chromeStorage = {
     get: function (key, callback) {
-        chrome.storage.sync.get(key, callback)
+        chrome.storage.local.get(key, callback)
     },
     set: function (data, callback) {
-        chrome.storage.sync.set(data, callback);
+        chrome.storage.local.set(data, callback);
     }
 };
 var id = "#data";
@@ -36,6 +36,9 @@ var vm = new Vue({
         }
     },
     methods: {
+        isActive: function (index) {
+            return index == this.curServerIndex;
+        },  
         addServer: function () {
             if (this.newServer.name && this.newServer.host) {
                 this.serverList.push(JSON.parse(JSON.stringify(this.newServer)));
@@ -61,6 +64,7 @@ var vm = new Vue({
         getFromStorage: function () {
 
             var that = this;
+
             function write(serverData) {
 
                 console.log(serverData);
@@ -75,6 +79,7 @@ var vm = new Vue({
                     }
                 }
             }
+
             chromeStorage.get(KEY, function (data) {
                 write(data[KEY])
             });

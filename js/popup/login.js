@@ -1,18 +1,26 @@
 var serverHost;
+var serverName;
 var $bg;
 
 chrome.runtime.getBackgroundPage(function (bg) {
     serverHost = bg.serverHost;
+    serverName = bg.serverName;
     $bg = bg;
+    console.log(serverName);
+    init()
 });
 
+var id= "#main";
+var vm;
 
-var id= "#loginDiv";
-var vm = new Vue({
+function init() {
+
+    vm = new Vue({
     el: id,
     data: {
         username: "",
-        password: ""
+        password: "",
+        serverName: "xxx"
     },
     methods: {
         login: function () {
@@ -38,5 +46,7 @@ var vm = new Vue({
         }
     },
     ready: function () {
+        this.serverName = serverName;
     }
 });
+}
