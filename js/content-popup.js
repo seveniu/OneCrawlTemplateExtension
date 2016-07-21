@@ -3,8 +3,9 @@ var ResultPopup = function () {
         '<div id="dhlz-inject-xpath-content-wrap" style="" >' +
         '<div id="dhlz-inject-xpath-content" style="">' +
         '<div id="dhlz-inject-layer-button" style="">' +
-        '<button class="dhlz-inject-button  dhlz-inject-button-confirm">确认</button>' +
-        '<button class="dhlz-inject-button  dhlz-inject-button-cancel">取消</button>' +
+        '<button class="dhlz-inject-button  dhlz-inject-button-close">关闭</button>' +
+        // '<button class="dhlz-inject-button  dhlz-inject-button-confirm">确认</button>' +
+        // '<button class="dhlz-inject-button  dhlz-inject-button-cancel">取消</button>' +
         '</div>' +
         '<div id="dhlz-inject-xpath-content-html" style="overflow-y: auto;height: 100%">' +
         '</div>' +
@@ -37,6 +38,9 @@ var ResultPopup = function () {
             if (that.confirmFunc) {
                 that.confirmFunc();
             }
+        });
+        $("#dhlz-inject-layer-button").find(".dhlz-inject-button-close").on("click", function () {
+            that.close();
         });
         $("#dhlz-inject-layer-button").find(".dhlz-inject-button-cancel").on("click", function () {
             that.close();

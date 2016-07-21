@@ -33,7 +33,8 @@ var vm = new Vue({
                 pagesize: 1000,
                 orderColumn: "id",
                 orderType: "desc",
-                websiteId: websiteId
+                websiteId: websiteId,
+                status: 1
             }, function (data) {
                 console.log(data);
                 data.result.items.forEach(function (v) {

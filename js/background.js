@@ -12,10 +12,12 @@ init();
 function init() {
     chrome.storage.local.get("serverData", function (data) {
         var serverData = data["serverData"];
-        var server = serverData.serverList[serverData.curServerIndex];
-        console.log(server);
-        serverHost = server.host;
-        serverName = server.name;
+        if (serverData) {
+            var server = serverData.serverList[serverData.curServerIndex];
+            console.log(server);
+            serverHost = server.host;
+            serverName = server.name;
+        }
     });
 }
 function getTemplate(callback) {
@@ -226,10 +228,12 @@ chrome.runtime.onMessage.addListener(
                 sendResponse(template.pages[pageIndex])
             });
             return true;
-        } else if (action === 'confirmPageResult') {
+        } else if (action === 'updatePageFields') {
             sendRadio({target: "iframe", action: "getPageFields"}, function (data) {
-                updatePageFields(data)
+                updatePageFields(data);
+                chrome.tabs.remove(sender.tab.id)
             })
+        } else if (action === 'closeCurTab') {
         }
 
     }

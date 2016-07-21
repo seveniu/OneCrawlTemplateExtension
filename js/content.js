@@ -37,12 +37,7 @@ function showResultPopup(data) {
             content += "<hr>"
         })
     });
-    resultPopup.show(content, function () {
-        chrome.runtime.sendMessage({action: "confirmPageResult"}, function (v) {
-        });
-    }, function () {
-        console.log("cancel");
-    })
+    resultPopup.show(content)
 }
 
 // -------------- 事件

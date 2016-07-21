@@ -102,6 +102,10 @@ var vm = new Vue({
             console.log(fields);
             sendMessage({action: "testXpath", msg: fields})
         },
+        "done": function () {
+            var data = clone(this.page.fields);
+            sendMessage({action: "updatePageFields",msg:data})
+        },
         "testXpathInServer": function () {
             var fields = JSON.stringify(this.page.fields);
             console.log(fields);
