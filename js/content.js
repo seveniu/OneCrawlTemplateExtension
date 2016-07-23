@@ -39,7 +39,19 @@ function showResultPopup(data) {
     });
     resultPopup.show(content)
 }
-
+function locateByXpath(xpath) {
+    var nodes = xpathUtil.getElementsByXpath(xpath, document);
+    for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        addLocateClass(n);
+    }
+}
+function addLocateClass(node) {
+    $(node).addClass(locateClass);
+}
+function removeLocateClass(node) {
+    $(node).addClass(locateClass);
+}
 // -------------- 事件
 
 var choosedElement;
@@ -54,12 +66,12 @@ $(document).on("click", "body", function (e) {
 });
 $(document).on("mouseover", function (e) {
     if (chooseFlag) {
-        $(getTargetElement(e)).addClass(locateClass);
+        addLocateClass(getTargetElement(e));
     }
 });
 $(document).on("mouseout", function (e) {
     if (chooseFlag) {
-        $(getTargetElement(e)).removeClass(locateClass);
+        removeLocateClass(getTargetElement(e));
     }
 });
 document.body.onkeydown = function (e) {

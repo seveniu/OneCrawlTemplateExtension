@@ -18,7 +18,8 @@ var vm = new Vue({
     el: id,
     data: {
         template: {
-            name: ""
+            name: "",
+            pages:[]
         },
         newPage: {
             name: ""
@@ -58,6 +59,10 @@ var vm = new Vue({
         inject: function (index, page) {
             console.log("inject : " + page.url);
             $bg.inject(index, page.url);
+        },
+        del: function (index,page) {
+            console.log(page);
+            this.template.pages.splice(index,1);
         }
 
     }

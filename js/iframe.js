@@ -87,15 +87,15 @@ var vm = new Vue({
                 // })
             });
         },
-        "chooseLabelGroup": function (group) {
+        chooseLabelGroup: function (group) {
             console.log(group);
         },
-        "xpathChoose": function (field) {
+        locateXpath: function (xpath) {
             console.log(field);
             this.chooseLabel = field;
             // vm.chooseLabel.xpath = "";
 
-            sendMessage({action: "choose", msg: "hello"});
+            sendMessage({action: "locateXpath", msg: xpath});
         },
         "testXpath": function () {
             var fields = JSON.stringify(this.page.fields);
@@ -104,7 +104,7 @@ var vm = new Vue({
         },
         "done": function () {
             var data = clone(this.page.fields);
-            sendMessage({action: "updatePageFields",msg:data})
+            sendMessage({action: "updatePageFields", msg: data})
         },
         "testXpathInServer": function () {
             var fields = JSON.stringify(this.page.fields);

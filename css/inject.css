@@ -101,14 +101,16 @@ button.dhlz-inject-button.dhlz-inject-button-success {
 }
 
 button.dhlz-inject-button.dhlz-inject-button-cancel {
-    background-color: #ccc !important;
+    background-color: #999 !important;
 }
-
+button.dhlz-inject-button.dhlz-inject-button-close {
+    background-color: #999 !important;
+}
 button.dhlz-inject-button.dhlz-inject-button-confirm {
     background-color: #337ab7 !important;
 }
 button.dhlz-inject-button.dhlz-inject-button-default {
-    background-color: #ccc !important;
+    background-color: #999 !important;
 }
 
 button.dhlz-inject-button.dhlz-inject-button-primary {

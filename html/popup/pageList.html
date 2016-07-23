@@ -26,7 +26,8 @@
         <template v-for="page in template.pages">
             <div class="page">
                 <label>{{page.name}}</label>
-                <button class="btn btn-primary btn-xs" v-on:click="inject($index,page)">页面注入</button>
+                <button class="btn btn-danger btn-xs" v-on:click="del($index,page)"> X </button>
+                <button class="btn btn-primary btn-xs" v-on:click="inject($index,page)">注入</button>
             </div>
         </template>
         <div v-show="showNewPage">
