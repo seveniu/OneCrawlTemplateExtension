@@ -90,12 +90,10 @@ var vm = new Vue({
         chooseLabelGroup: function (group) {
             console.log(group);
         },
-        xpathChoose: function (xpath) {
+        "xpathChoose": function (field) {
             console.log(field);
             this.chooseLabel = field;
-            // vm.chooseLabel.xpath = "";
-
-            sendMessage({action: "locateXpath", msg: xpath});
+            sendMessage({action: "choose", msg: "hello"});
         },
         "testXpath": function () {
             var fields = JSON.stringify(this.page.fields);

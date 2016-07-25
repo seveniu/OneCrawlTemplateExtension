@@ -4,7 +4,7 @@
 
     bottom: auto !important;
     /*box-shadow: none;*/
-    display: block !important;
+    display: block;
     height: 604px !important;
     left: auto !important;
     /*opacity: 0;*/

@@ -1,5 +1,5 @@
 console.log("content js loading");
-var iframe = $("#dhlz-inject-iiframe");
+var iframe = $("#dhlz-inject-iframe");
 var locateClass = "dhlz_locate_over";
 
 
@@ -50,7 +50,7 @@ function addLocateClass(node) {
     $(node).addClass(locateClass);
 }
 function removeLocateClass(node) {
-    $(node).addClass(locateClass);
+    $(node).removeClass(locateClass);
 }
 // -------------- 事件
 

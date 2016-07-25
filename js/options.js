@@ -42,6 +42,9 @@ var vm = new Vue({
         addServer: function () {
             if (this.newServer.name && this.newServer.host) {
                 this.serverList.push(JSON.parse(JSON.stringify(this.newServer)));
+                if(this.serverList.length == 1) {
+                    this.curServerIndex = 0;
+                }
                 this.saveToStorage();
                 this.clearNewServer()
             } else {
@@ -95,6 +98,7 @@ var vm = new Vue({
             chromeStorage.set(data, function () {
                 chrome.runtime.getBackgroundPage(function (bg) {
                     bg.serverHost = clone(that.serverList[that.curServerIndex]).host;
+                    bg.serverName = clone(that.serverList[that.curServerIndex]).name;
                     // checkTimeout();
                 });
             })
