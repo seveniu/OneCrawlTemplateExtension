@@ -41,7 +41,7 @@ function setTemplate(template, callback) {
 
 function clearTemplate(callback) {
 
-    chrome.storage.local.clear(function () {
+    chrome.storage.local.remove("template",function () {
         console.log("取消修改模板");
         if (callback)
             callback();
@@ -111,13 +111,14 @@ function getFieldGroupList(callback) {
 }
 function submitToServer(template, callback) {
     template.pages = JSON.stringify(template.pages);
-    delete template.createtime;
+    delete template.createTime;
     if (template.id) {
 
         $.ajax({
-            url: serverHost + "api/template/edit",
+            url: serverHost + "api/template/edit/" + template.id + "/pages",
             type: 'put',
-            data: template,
+            dataType: 'json',
+            data: {pages:template.pages},
             success: function (result) {
                 console.log(result);
                 if (result.code == "200000") {
