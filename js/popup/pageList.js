@@ -54,7 +54,8 @@ var vm = new Vue({
         },
         submit: function () {
             $bg.submitTemplate();
-            toPage("popup")
+            window.close();
+            // toPage("popup")
         },
         inject: function (index, page) {
             console.log("inject : " + page.url);

@@ -122,7 +122,8 @@ function submitToServer(template, callback) {
             success: function (result) {
                 console.log(result);
                 if (result.code == "200000") {
-                    clearTemplate()
+                    clearTemplate();
+                    alertMessage("提交成功")
                 } else {
                     alertMessage("更新服务器数据,发生错误")
                 }
