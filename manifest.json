@@ -1,6 +1,6 @@
 {
     "name": "Crawl Template",
-    "version": "1.0.730",
+    "version": "1.0.731",
     "manifest_version": 2,
     "description": "用于定义抓取模板",
     "browser_action": {
