@@ -35,7 +35,7 @@ function showResultPopup(data) {
         elements.forEach(function (element) {
             var $element = $(element);
             $element.find("script").remove();
-            content += $element.html();
+            content += $element.html().trim();
             content += "<hr>"
         })
     });
