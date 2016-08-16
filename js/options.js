@@ -41,7 +41,10 @@ var vm = new Vue({
         },  
         addServer: function () {
             if (this.newServer.name && this.newServer.host) {
-                this.serverList.push(JSON.parse(JSON.stringify(this.newServer)));
+                if(this.newServer.host.charAt(this.newServer.host.length -1 ) != "/") {
+                    this.newServer.host = this.newServer.host + "/";
+                }
+                this.serverList.push(clone(this.newServer));
                 if(this.serverList.length == 1) {
                     this.curServerIndex = 0;
                 }

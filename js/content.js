@@ -33,7 +33,9 @@ function showResultPopup(data) {
         console.log(v);
         var elements = xpathUtil.getElementsByXpath(v.xpath, document);
         elements.forEach(function (element) {
-            content += element.innerHTML;
+            var $element = $(element);
+            $element.find("script").remove();
+            content += $element.html();
             content += "<hr>"
         })
     });
