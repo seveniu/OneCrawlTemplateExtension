@@ -61,6 +61,12 @@ var vm = new Vue({
             console.log("inject : " + page.url);
             $bg.inject(index, page.url);
         },
+        injectCur: function (index) {
+            $bg.getCurTabUrl(function (url) {
+                console.log("inject : " + url);
+                $bg.inject(index, url);
+            })
+        },
         del: function (index,page) {
             console.log(page);
             this.template.pages.splice(index,1);
